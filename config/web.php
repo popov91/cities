@@ -42,6 +42,13 @@ $config = [
                 ],
             ],
         ],
+        'elasticsearch' => [
+            'class' => 'yii\elasticsearch\Connection',
+            'nodes' => [
+                ['http_address' => 'elasticsearch:9200'],
+            ],
+            'dslVersion' => 7,
+        ],
         'db' => $db,
         /*
         'urlManager' => [
@@ -51,13 +58,6 @@ $config = [
             ],
         ],
         */
-    ],
-    'elasticsearch' => [
-        'class' => 'yii\elasticsearch\Connection',
-        'nodes' => [
-            ['http_address' => '127.0.0.1:9200'],
-        ],
-        'dslVersion' => 7,
     ],
     'params' => $params,
 ];
