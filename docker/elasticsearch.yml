@@ -1,0 +1,10 @@
+cluster.name: docker-cluster
+path.data: /var/lib/elasticsearch
+path.logs: /var/log/elasticsearch
+bootstrap.memory_lock: true
+http.port: 9200
+network.host: 0.0.0.0
+xpack.ml.enabled: false
+action.auto_create_index: ".security*,.monitoring.*,.watches,.triggered_watches,.watcher-history*,.ml*"
+discovery.zen.minimum_master_nodes: 1
+discovery.type: single-node

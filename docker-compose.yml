@@ -1,0 +1,55 @@
+version: "3"
+
+services:
+  app:
+    build: docker/php
+    volumes:
+      - ./:/app
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+  nginx:
+    image: nginx:1.12-alpine
+    ports:
+      - 80:80
+    volumes:
+      - ./:/app
+      - ./docker/nginx/vhost.conf:/etc/nginx/conf.d/vhost.conf
+    depends_on:
+      - app
+
+  db:
+    image: mysql:5.7
+    volumes:
+      - /var/lib/mysql
+      - ./docker/mysql/config.cnf:/etc/mysql/conf.d/config.cnf
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: yii2-starter-kit
+      MYSQL_USER: ysk_dbu
+      MYSQL_PASSWORD: ysk_pass
+
+  elasticsearch:
+    image: elasticsearch:7.9.3
+    environment:
+      - xpack.ml.enabled=false
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.zen.minimum_master_nodes=1
+      - discovery.type=single-node
+      - action.auto_create_index=.security*,.monitoring.*,.watches,.triggered_watches,.watcher-history*,.ml*
+    volumes:
+      - ./docker/elasticsearch/nodes:/var/lib/elasticsearch/nodes
+      - ./docker/elasticsearch.yml:/etc/elasticsearch/elasticsearch.yml
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
