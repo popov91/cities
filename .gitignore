@@ -32,3 +32,7 @@ phpunit.phar
 
 # Tests
 tests/codeception/*/_support/_generated/*
+
+# large csv files
+web/csv/cities/*
+web/csv/postal_code/*

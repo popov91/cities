@@ -53,3 +53,8 @@ services:
       nofile:
         soft: 65536
         hard: 65536
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
